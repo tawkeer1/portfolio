@@ -2,10 +2,9 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { clerkClient } from '@clerk/nextjs/server';
 import { createOrUpdateUser } from '@/app/actions/user';
-
 export async function POST(req) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
-
+  console.log("Webhooksecret",WEBHOOK_SECRET);
   if (!WEBHOOK_SECRET) {
     throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local');
   }
