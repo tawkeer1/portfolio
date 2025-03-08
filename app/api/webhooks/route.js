@@ -60,8 +60,8 @@ export async function POST(req) {
 
           await clerkClient.users.updateUserMetadata(id, {
             publicMetadata: {
-              userMongoId: user._id,
-              isAdmin: user.isAdmin,
+              userMongoId: user._id || "123",
+              isAdmin: user.isAdmin || false,
             },
           });
 
