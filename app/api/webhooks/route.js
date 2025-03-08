@@ -66,6 +66,7 @@ export async function POST(req) {
           });
 
           console.log("Metadata update successful for user:", id);
+          return new Response("Metadata updated")
         } catch (error) {
           console.error('Error updating user metadata:', error);
           return new Response('Error updating user metadata', { status: 500 });
