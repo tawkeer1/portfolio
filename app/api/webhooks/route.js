@@ -1,6 +1,6 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
-import { Clerk } from "@clerk/clerk-sdk-node";
+import { clerkClient } from "@clerk/clerk-sdk-node";
 import { createOrUpdateUser } from '@/app/actions/user';
 export async function POST(req) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -57,7 +57,7 @@ export async function POST(req) {
         try {
           console.log("Updating user metadata for:", id);
           console.log("Metadata being set:", { userMongoId: user._id, isAdmin: user.isAdmin });
-          const clerkClient = new Clerk({ secretKey: process.env.CLERK_SECRET_KEY });
+          console.log("clerk client ",clerkClient);
           console.log("clerk users exits ",clerkClient?.users);
           await clerkClient.users.updateUserMetadata(id, {
             publicMetadata: {
