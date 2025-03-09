@@ -57,10 +57,10 @@ export async function POST(req) {
         try {
           console.log("Updating user metadata for:", id);
           console.log("Metadata being set:", { userMongoId: user._id, isAdmin: user.isAdmin });
-
+          console.log("clerk users exits ",clerkClient.users);
           await clerkClient.users.updateUserMetadata(id, {
             publicMetadata: {
-              userMongoId: user._id || "123",
+              userMongoId: user._id || "default_id",
               isAdmin: user.isAdmin || false,
             },
           });
