@@ -77,6 +77,7 @@ export async function POST(req) {
       console.error('Error creating or updating user:', error);
       return new Response('Error occurred', { status: 400 });
     }
+    return new Response("Event not handled", { status: 200 });
   }
 
 //   if (eventType === 'user.deleted') {
