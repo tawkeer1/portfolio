@@ -80,15 +80,15 @@ export async function POST(req) {
     return new Response("Event not handled", { status: 200 });
   }
 
-//   if (eventType === 'user.deleted') {
-//     const { id } = evt?.data;
-//     try {
-//       await deleteUser(id);
-//       console.log("User deleted:", id);
-//     } catch (error) {
-//       console.error('Error deleting user:', error);
-//       return new Response('Error occurred', { status: 400 });
-//     }
-//   }
-//   return new Response('', { status: 200 });
+  if (eventType === 'user.deleted') {
+    const { id } = evt?.data;
+    try {
+      await deleteUser(id);
+      console.log("User deleted:", id);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return new Response('Error occurred', { status: 400 });
+    }
+  }
+  return new Response('', { status: 200 });
 }

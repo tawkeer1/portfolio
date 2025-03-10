@@ -20,3 +20,12 @@ export const createOrUpdateUser= async (id,email)=>{
         return new Response("Error creating user");
       }
 }
+export const deleteUser = async (id)=>{
+  try{
+    await connect();
+    await User.findOneAndDelete({clerkId:id});
+  }
+  catch(error){
+    console.log(error)
+  }
+}
