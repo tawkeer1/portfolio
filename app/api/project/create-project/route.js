@@ -8,15 +8,15 @@ export const POST = async (req) => {
     await connect();
     const data = await req.json();
 
-    if (
-      !user ||
-      user.publicMetadata.userMongoId !== data.userMongoId ||
-      user.publicMetadata.isAdmin !== true
-    ) {
-      return new Response('Unauthorized', {
-        status: 401,
-      });
-    }
+    // if (
+    //   !user ||
+    //   user.publicMetadata.userMongoId !== data.userMongoId ||
+    //   user.publicMetadata.isAdmin !== true
+    // ) {
+    //   return new Response('Unauthorized', {
+    //     status: 401,
+    //   });
+    // }
     
     const newPost = await Project.create({
       userId: user.publicMetadata.userMongoId,
