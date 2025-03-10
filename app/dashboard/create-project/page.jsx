@@ -1,7 +1,6 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -20,6 +19,9 @@ import { app } from '@/firebase';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -108,7 +110,7 @@ export default function CreatePostPage() {
         </h1>
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
           <div className='flex flex-col gap-4 sm:flex-row justify-between'>
-            <TextInput
+            <Input
               type='text'
               placeholder='Title'
               required
@@ -121,16 +123,14 @@ export default function CreatePostPage() {
             
           </div>
           <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
-            <FileInput
+            <Input
               type='file'
               accept='image/*'
               onChange={(e) => setFile(e.target.files[0])}
             />
             <Button
               type='button'
-              gradientDuoTone='purpleToBlue'
               size='sm'
-              outline
               onClick={handleUpdloadImage}
               disabled={imageUploadProgress}
             >
@@ -147,9 +147,9 @@ export default function CreatePostPage() {
             </Button>
           </div>
 
-          {imageUploadError && (
+          {/* {imageUploadError && (
             <Alert color='failure'>{imageUploadError}</Alert>
-          )}
+          )} */}
           {formData.image && (
             <img
               src={formData.image}
@@ -158,8 +158,7 @@ export default function CreatePostPage() {
             />
           )}
 
-          <ReactQuill
-            theme='snow'
+          <Textarea
             placeholder='Write something...'
             className='h-72 mb-12'
             required
@@ -167,9 +166,9 @@ export default function CreatePostPage() {
               setFormData({ ...formData, content: value });
             }}
           />
-          <button type="submit">
+          <Button type="submit">
               Publish
-          </button>
+          </Button>
         </form>
       </div>
     );
