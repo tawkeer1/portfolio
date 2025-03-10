@@ -91,6 +91,7 @@ export default function CreatePostPage() {
       }
       if (res.ok) {
         setPublishError(null);
+        console.log("result is obtained")
         router.push(`/success`);
       }
     } catch (error) {

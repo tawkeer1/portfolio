@@ -26,6 +26,7 @@ export const POST = async (req) => {
       url: data.url,
     });
     await newPost.save();
+    console.log("project at backend",newPost)
     return new Response(JSON.stringify(newPost), {
       status: 200,
     });
