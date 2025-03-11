@@ -1,19 +1,10 @@
 import Project from "@/models/projects.models";
 import { connect } from "@/mongodb/mongoose.js";
-import { auth } from "@clerk/nextjs/server";
-import { clerkClient } from "@clerk/nextjs/server";
+
+import { currentUser } from "@clerk/nextjs/server";
 export const POST = async (req) => {
   try {
-    const { userId } = await auth();
-    console.log("userID form auth :", userId);
-    if (!userId) return new Response("user doesn't exist", { status: 401 });
-
-    const user = await clerkClient.users.getUser(userId);
-    console.log("Full user data",user);
-    const userMongoId = user.publicMetadata?.userMongoId;
-    if (!userMongoId)
-      return new Response("userMongoId missing", { status: 400 });
-
+    const user = await currentUser();
     await connect();
     const data = await req.json();
 
@@ -26,8 +17,12 @@ export const POST = async (req) => {
     //     status: 401,
     //   });
     // }
+    if (!user) return new Response("user doesn't exist");
+    console.log("User is:", user);
+    console.log("user pubicmetadata", user.publicMetadata);
+    console.log("user monngoid", user.publicMetadata?.userMongoId);
     const newPost = await Project.create({
-      userId: userMongoId,
+      userId: user.publicMetadata?.userMongoId,
       content: data.content,
       title: data.title,
       image: data.image,
