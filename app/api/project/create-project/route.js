@@ -1,16 +1,16 @@
-import { auth } from "@clerk/nextjs";
-import { clerkClient } from "@clerk/nextjs/server"; // Import Clerk server-side functions
+import { auth } from "@clerk/nextjs/server"; // Correct import for API routes
+import { clerkClient } from "@clerk/nextjs/server"; // Required for fetching user details
 import Project from "@/models/projects.models";
 import { connect } from "@/mongodb/mongoose.js";
 
 export const POST = async (req) => {
   try {
-    const { userId } = auth();
+    const { userId } = auth(); // Get authenticated user ID
     console.log("User ID from auth():", userId);
 
     if (!userId) return new Response("User doesn't exist", { status: 401 });
 
-    // Fetch full user details from Clerk
+    // Fetch user details from Clerk to get public metadata
     const user = await clerkClient.users.getUser(userId);
     console.log("Full User Data:", user);
 
@@ -21,7 +21,7 @@ export const POST = async (req) => {
     const data = await req.json();
 
     const newPost = await Project.create({
-      userId: userMongoId, // Use the stored MongoDB ID
+      userId: userMongoId, // Use MongoDB ID stored in Clerk metadata
       content: data.content,
       title: data.title,
       image: data.image,
