@@ -17,9 +17,10 @@ export const POST = async (req) => {
     //     status: 401,
     //   });
     // }
+    console.log("user :", user);
     if(!user) return new Response("user doesn't exist")
     const newPost = await Project.create({
-      userId: user.publicMetadata.userMongoId,
+      userId: user.publicMetadata?.userMongoId,
       content: data.content,
       title: data.title,
       image: data.image,
