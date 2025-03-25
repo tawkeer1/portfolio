@@ -8,15 +8,6 @@ const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 // https://dev.to/a7u/reactquill-with-nextjs-478b
 import "react-quill-new/dist/quill.snow.css";
 
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "@/firebase";
-
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
 
-  const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
@@ -33,42 +24,6 @@ export default function CreatePostPage() {
   const router = useRouter();
   console.log(formData);
 
-  const handleUpdloadImage = async () => {
-    try {
-      if (!file) {
-        setImageUploadError("Please select an image");
-        return;
-      }
-      setImageUploadError(null);
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + "-" + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageUploadError("Image upload failed");
-          setImageUploadProgress(null);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-            setFormData({ ...formData, image: downloadURL });
-          });
-        }
-      );
-    } catch (error) {
-      setImageUploadError("Image upload failed");
-      setImageUploadProgress(null);
-      console.log(error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,7 +34,6 @@ export default function CreatePostPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...formData,
@@ -125,33 +79,19 @@ export default function CreatePostPage() {
           />
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          <Button
-            type="button"
-            size="sm"
-            onClick={handleUpdloadImage}
-            disabled={imageUploadProgress}
-          >
-            {imageUploadProgress ? (
-              <div className="w-16 h-16">
-                <CircularProgressbar
-                  value={imageUploadProgress}
-                  text={`${imageUploadProgress || 0}%`}
-                />
-              </div>
-            ) : (
-              "Upload Image"
-            )}
-          </Button>
+
+      <div>
+      <h2>Upload an Image</h2>
+      <CldUploadButton
+        uploadPreset="test-app" 
+        onSuccess={(result) => setImageUrl(result.info.secure_url)}
+      />
+      {imageUrl && setFormData({
+        ...formData, image:imageUrl
+      })}
+    </div>
         </div>
 
-        {/* {imageUploadError && (
-            <Alert color='failure'>{imageUploadError}</Alert>
-          )} */}
         {formData.image && (
           <img
             src={formData.image}
