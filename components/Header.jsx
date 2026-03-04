@@ -20,16 +20,13 @@ const Header = () => {
       </h1>
     <div className="flex justify-center items-center ">
       <header className="flex justify-end items-center p-4 gap-4 h-16">
-        <a href="https://bloggingapp-one.vercel.app/">
-        <p className="cursor-pointer">My Blogs</p>
-        </a>
-        <SignedOut>
+        {/* <SignedOut>
           <SignInButton className="cursor-pointer"/>
           <SignUpButton className="cursor-pointer"/>
         </SignedOut>
         <SignedIn>
           <UserButton />
-        </SignedIn>
+        </SignedIn> */}
       <ModeToggle />
       </header>
     </div>

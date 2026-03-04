@@ -1,6 +1,6 @@
 import React from 'react'
 import SkillCard from './SkillCard'
-const skills = ["HTML","CSS","Javascript","Reactjs","Nextjs","Typescript","Mongodb","TailwindCss"]
+const skills = ["HTML","CSS","Javascript","Reactjs","Nextjs","Typescript","Mongodb","TailwindCss","Java", "SpringBoot","MySQL","Git","Docker","Kubernetes"]
 const Skills = () => {
   return (
     <div className='text-center mt-4 p-3'>

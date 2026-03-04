@@ -9,7 +9,7 @@ const Education = () => {
   return (
       <>
       <h1 className='font-bold text-xl mb-2'>Education</h1>
-    <div className="card bg-base-100 w-96 shadow-sm border border-gray-700 ">
+    <div className="card bg-base-100 w-96 shadow-sm border border-gray-700 max-[380px]:w-70">
   <figure>
     <img
       src="/nit.jpg"
